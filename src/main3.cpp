@@ -32,13 +32,13 @@ Spline* spline_init(double* x, double* y, int n) {
 
     // Заполнение коэффициентов сплайна
     double *h = (double*)malloc((n - 1) * sizeof(double));
-    #pragma omp parallel for
+    #pragma omp parallel for simd
     for (int i = 0; i < n - 1; i++) {
         h[i] = x[i+1] - x[i];
     }
 
     double *alpha = (double*)malloc((n - 1) * sizeof(double));
-    #pragma omp parallel for
+    #pragma omp parallel for simd
     for (int i = 1; i < n - 1; i++) {
         alpha[i] = (3.0 / h[i] * (y[i+1] - y[i])) - (3.0 / h[i-1] * (y[i] - y[i-1]));
     }
@@ -94,7 +94,7 @@ double spline_integrate(Spline* spline, double a, double b, int num_points) {
     int i;
 
     // Использование ассемблера для параллельного вычисления интеграла
-    #pragma omp parallel for private(i) reduction(+:integral)
+    #pragma omp parallel for simd private(i) reduction(+:integral)
     for (i = 1; i <= num_points; i++) {
         double x_left = a + (i - 1) * dx;
         double x_right = a + i * dx;
