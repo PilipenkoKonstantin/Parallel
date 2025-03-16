@@ -4,6 +4,8 @@
 #include <locale.h>
 #include <chrono>
 #include <iostream>
+#include <omp.h> // ���������� OpenMP
+#include <mpi.h>
 
 // ��������� ��� �������� ������������� ����������� �������
 typedef struct {
@@ -22,6 +24,8 @@ Spline* spline_init(double* x, double* y, int n) {
     spline->x = (double*)malloc(n * sizeof(double));
     spline->n = n;
 
+    // ���������� ���� �������������
+    #pragma omp parallel for
     for (int i = 0; i < n; i++) {
         spline->a[i] = y[i];
         spline->x[i] = x[i];
@@ -29,11 +33,13 @@ Spline* spline_init(double* x, double* y, int n) {
 
     // ���������� ������������� �������
     double *h = (double*)malloc((n - 1) * sizeof(double));
+    #pragma omp parallel for simd
     for (int i = 0; i < n - 1; i++) {
         h[i] = x[i+1] - x[i];
     }
 
     double *alpha = (double*)malloc((n - 1) * sizeof(double));
+    #pragma omp parallel for simd
     for (int i = 1; i < n - 1; i++) {
         alpha[i] = (3.0 / h[i] * (y[i+1] - y[i])) - (3.0 / h[i-1] * (y[i] - y[i-1]));
     }
@@ -82,59 +88,88 @@ double spline_eval(Spline* spline, double x) {
     return spline->a[i] + spline->b[i] * dx + spline->c[i] * dx * dx + spline->d[i] * dx * dx * dx;
 }
 
-// ������� ��� ���������� �������������� �� ��������
+// ������� ��� ���������� �������������� � �������������� ����������
 double spline_integrate(Spline* spline, double a, double b, int num_points) {
     double dx = (b - a) / (double)num_points;
     double integral = 0.0;
-    for (int i = 1; i <= num_points; i++) {
+    int i;
+
+    // ������������� ���������� ��� ������������� ���������� ���������
+    #pragma omp parallel for simd private(i) reduction(+:integral)
+    for (i = 1; i <= num_points; i++) {
         double x_left = a + (i - 1) * dx;
         double x_right = a + i * dx;
         double y_left = spline_eval(spline, x_left);
         double y_right = spline_eval(spline, x_right);
-        integral += 0.5 * (y_left + y_right) * dx;
+        double local_integral = 0.0;
+
+        // ������������ ������� ��� �������� � ��������� �������� � �������������� SIMD
+        __asm__ __volatile__ (
+            "movsd %1, %%xmm0\n"     // ��������� y_left � xmm0
+            "movsd %2, %%xmm1\n"     // ��������� y_right � xmm1
+            "addsd %%xmm1, %%xmm0\n" // ��������� y_left � y_right
+            "mulsd %3, %%xmm0\n"     // �������� �� dx
+            "movsd %%xmm0, %0\n"     // ��������� ��������� � local_integral
+            : "=m" (local_integral)  // �������� �������
+            : "m" (y_left), "m" (y_right), "m" (dx) // ������� ��������
+            : "xmm0", "xmm1"         // ������������ ��������
+        );
+
+        integral += local_integral * 0.5;  // ��������� � ����� ��������
     }
+
     return integral;
 }
- // ������� ������� f(x) �������
-double f(double x) {
-        return sin(x);
-    }
 
-int main() {
+// ������� f(x) ��� �������
+double f(double x) {
+    return sin(x);
+}
+
+int main(int argc, char** argv) {
+    MPI_Init(&argc, &argv);
+    int rank, size, tries=1000;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
     std::chrono::steady_clock::time_point start, end;
-    setlocale (LC_ALL ,"Russian");
-     // ����������� ��������� �������������� [a, b]
+    setlocale(LC_ALL, "Russian");
+
+    // �������� �������������� [a, b]
     double a = 0.0;
     double b = M_PI;
-    // int num_points = 1000; // ���������� ����� ��� ���������� ��������������
-    // ����������� ������� �����
-    int n = 1000, tries = 1000; // ���������� �����
-    double x[n+1]; // ���� �� [0, pi]
+    int n = 1000; // ���������� �����
+    double x[n+1];
     double y[n+1];
-    x[0]=a;
-    for(size_t i = 0; i < n; i++){
-        x[i+1] = a +(i + 1) * (b - a) / n;
+    x[0] = a;
+
+    // ���������� �������� x � y
+    for (int i = 0; i < n; i++) {
+        x[i+1] = a + (i + 1) * (b - a) / n;
     }
 
-    // ���������� ������� y ���������� ������� f(x) � ������� ������
     for (int i = 0; i < n; i++) {
         y[i] = f(x[i]);
     }
+
     start = std::chrono::steady_clock::now();
     // ������������� �������� ��� ������� f(x)
     Spline* spline = spline_init(x, y, n+1);
 
-
+    int n, ibeg, iend;
+    n = (tries - 1) / size + 1;
+    ibeg = rank * n;
+    iend = (rank + 1) * n;
     // ��������� �������������� � �������������� ��������
-    for(int i=0;i<tries;++i)
+    for (size_t i = ibeg; i < ((iend > tries) ? tries : iend); ++i)
         double calculated_integral = spline_integrate(spline, a, b, n + 1);
     end = std::chrono::steady_clock::now();
     std::cout << std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() << std::endl;
+
     // ��������� ��������� (������������� �������� �� sin(x) �� [0, pi])
-    // double expected_integral = 2.0;
+    double expected_integral = 2.0;
 
     // ����� �����������
-    // printf("��������� �������� ��������� ��� f(x) = sin(x) �� ��������� [0, pi]: %f\n", calculated_integral);
+    // printf("��������� �������� ���������: %f\n", calculated_integral);
     // printf("��������� �������� ���������: %f\n", expected_integral);
     // printf("�������: %f\n", fabs(calculated_integral - expected_integral));
 

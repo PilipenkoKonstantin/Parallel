@@ -4,16 +4,16 @@
 #include <locale.h>
 #include <chrono>
 #include <iostream>
-#include <omp.h> // Подключаем OpenMP
+#include <omp.h> // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ OpenMP
 
-// Структура для хранения коэффициентов кубического сплайна
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 typedef struct {
     double *a, *b, *c, *d;
     double *x;
     int n;
 } Spline;
 
-// Функция для инициализации сплайнов
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 Spline* spline_init(double* x, double* y, int n) {
     Spline* spline = (Spline*)malloc(sizeof(Spline));
     spline->a = (double*)malloc(n * sizeof(double));
@@ -23,14 +23,14 @@ Spline* spline_init(double* x, double* y, int n) {
     spline->x = (double*)malloc(n * sizeof(double));
     spline->n = n;
 
-    // Параллелим цикл инициализации
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     #pragma omp parallel for
     for (int i = 0; i < n; i++) {
         spline->a[i] = y[i];
         spline->x[i] = x[i];
     }
 
-    // Заполнение коэффициентов сплайна
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     double *h = (double*)malloc((n - 1) * sizeof(double));
     #pragma omp parallel for simd
     for (int i = 0; i < n - 1; i++) {
@@ -76,7 +76,7 @@ Spline* spline_init(double* x, double* y, int n) {
     return spline;
 }
 
-// Функция для вычисления значения кубического сплайна
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 double spline_eval(Spline* spline, double x) {
     int n = spline->n;
     int i = n - 2;
@@ -87,13 +87,13 @@ double spline_eval(Spline* spline, double x) {
     return spline->a[i] + spline->b[i] * dx + spline->c[i] * dx * dx + spline->d[i] * dx * dx * dx;
 }
 
-// Функция для численного интегрирования с использованием ассемблера
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 double spline_integrate(Spline* spline, double a, double b, int num_points) {
     double dx = (b - a) / (double)num_points;
     double integral = 0.0;
     int i;
 
-    // Использование ассемблера для параллельного вычисления интеграла
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     #pragma omp parallel for simd private(i) reduction(+:integral)
     for (i = 1; i <= num_points; i++) {
         double x_left = a + (i - 1) * dx;
@@ -102,25 +102,25 @@ double spline_integrate(Spline* spline, double a, double b, int num_points) {
         double y_right = spline_eval(spline, x_right);
         double local_integral = 0.0;
 
-        // Ассемблерная вставка для сложения и умножения значений с использованием SIMD
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ SIMD
         __asm__ __volatile__ (
-            "movsd %1, %%xmm0\n"     // Загружаем y_left в xmm0
-            "movsd %2, %%xmm1\n"     // Загружаем y_right в xmm1
-            "addsd %%xmm1, %%xmm0\n" // Суммируем y_left и y_right
-            "mulsd %3, %%xmm0\n"     // Умножаем на dx
-            "movsd %%xmm0, %0\n"     // Сохраняем результат в local_integral
-            : "=m" (local_integral)  // Выходной операнд
-            : "m" (y_left), "m" (y_right), "m" (dx) // Входные операнды
-            : "xmm0", "xmm1"         // Используемые регистры
+            "movsd %1, %%xmm0\n"     // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ y_left пїЅ xmm0
+            "movsd %2, %%xmm1\n"     // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ y_right пїЅ xmm1
+            "addsd %%xmm1, %%xmm0\n" // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ y_left пїЅ y_right
+            "mulsd %3, %%xmm0\n"     // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ dx
+            "movsd %%xmm0, %0\n"     // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ local_integral
+            : "=m" (local_integral)  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            : "m" (y_left), "m" (y_right), "m" (dx) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            : "xmm0", "xmm1"         // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         );
 
-        integral += local_integral * 0.5;  // Добавляем в общий интеграл
+        integral += local_integral * 0.5;  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
     return integral;
 }
 
-// Функция f(x) для сплайна
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ f(x) пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 double f(double x) {
     return sin(x);
 }
@@ -129,15 +129,15 @@ int main() {
     std::chrono::steady_clock::time_point start, end;
     setlocale(LC_ALL, "Russian");
 
-    // Интервал интегрирования [a, b]
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ [a, b]
     double a = 0.0;
     double b = M_PI;
-    int n = 1000; // Количество узлов
+    int n = 1000, tries = 1000; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     double x[n+1];
     double y[n+1];
     x[0] = a;
 
-    // Заполнение массивов x и y
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ x пїЅ y
     for (int i = 0; i < n; i++) {
         x[i+1] = a + (i + 1) * (b - a) / n;
     }
@@ -147,23 +147,24 @@ int main() {
     }
 
     start = std::chrono::steady_clock::now();
-    // Инициализация сплайнов для функции f(x)
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ f(x)
     Spline* spline = spline_init(x, y, n+1);
 
-    // Численное интегрирование с использованием сплайнов
-    double calculated_integral = spline_integrate(spline, a, b, n + 1);
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    for(int i=0;i<tries;++i)
+        double calculated_integral = spline_integrate(spline, a, b, n + 1);
     end = std::chrono::steady_clock::now();
     std::cout << std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() << std::endl;
 
-    // Ожидаемый результат (аналитический интеграл от sin(x) на [0, pi])
-    double expected_integral = 2.0;
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ sin(x) пїЅпїЅ [0, pi])
+    // double expected_integral = 2.0;
 
-    // Вывод результатов
-    printf("Численное значение интеграла: %f\n", calculated_integral);
-    printf("Ожидаемое значение интеграла: %f\n", expected_integral);
-    printf("Разница: %f\n", fabs(calculated_integral - expected_integral));
+    // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    // printf("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: %f\n", calculated_integral);
+    // printf("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: %f\n", expected_integral);
+    // printf("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: %f\n", fabs(calculated_integral - expected_integral));
 
-    // Освобождение памяти
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     free(spline->a);
     free(spline->b);
     free(spline->c);
