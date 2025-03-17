@@ -9,39 +9,6 @@ __tcf_0:
 	leaq	_ZStL8__ioinit(%rip), %rcx
 	jmp	_ZNSt8ios_base4InitD1Ev
 	.seh_endproc
-	.section	.text$_Z6printfPKcz,"x"
-	.linkonce discard
-	.p2align 4
-	.globl	_Z6printfPKcz
-	.def	_Z6printfPKcz;	.scl	2;	.type	32;	.endef
-	.seh_proc	_Z6printfPKcz
-_Z6printfPKcz:
-.LFB8:
-	pushq	%r12
-	.seh_pushreg	%r12
-	pushq	%rbx
-	.seh_pushreg	%rbx
-	subq	$56, %rsp
-	.seh_stackalloc	56
-	.seh_endprologue
-	leaq	88(%rsp), %rbx
-	movq	%rdx, 88(%rsp)
-	movq	%r8, 96(%rsp)
-	movq	%r9, 104(%rsp)
-	movq	%rbx, 40(%rsp)
-	movq	%rcx, %r12
-	movl	$1, %ecx
-	call	*__imp___acrt_iob_func(%rip)
-	movq	%rax, %rcx
-	movq	%rbx, %r8
-	movq	%r12, %rdx
-	call	__mingw_vfprintf
-	addq	$56, %rsp
-	popq	%rbx
-	popq	%r12
-	ret
-	.seh_endproc
-	.text
 	.p2align 4
 	.globl	_Z11spline_initPdS_i
 	.def	_Z11spline_initPdS_i;	.scl	2;	.type	32;	.endef
@@ -108,7 +75,7 @@ _Z11spline_initPdS_i:
 	movl	256(%rsp), %eax
 	movl	%eax, 40(%r15)
 	testl	%eax, %eax
-	jle	.L5
+	jle	.L4
 	movq	%rdi, %r8
 	movq	%rbx, %rdx
 	movq	%r13, %rcx
@@ -117,7 +84,7 @@ _Z11spline_initPdS_i:
 	movq	%rsi, %rdx
 	movq	%r12, %rcx
 	call	memcpy
-.L5:
+.L4:
 	movl	256(%rsp), %eax
 	leaq	-8(%rdi), %r13
 	leal	-1(%rax), %edx
@@ -127,37 +94,37 @@ _Z11spline_initPdS_i:
 	movl	40(%rsp), %edx
 	movq	%rax, %r12
 	testl	%edx, %edx
-	jle	.L6
+	jle	.L5
 	movl	256(%rsp), %eax
 	subl	$2, %eax
 	movl	%eax, 40(%rsp)
 	cmpl	$2, %eax
-	jbe	.L27
+	jbe	.L26
 	movl	%edx, %ecx
 	shrl	$2, %ecx
 	salq	$5, %rcx
 	xorl	%eax, %eax
 	.p2align 4,,10
 	.p2align 3
-.L8:
+.L7:
 	vmovupd	8(%rsi,%rax), %ymm7
 	vsubpd	(%rsi,%rax), %ymm7, %ymm0
 	vmovupd	%ymm0, (%r12,%rax)
 	addq	$32, %rax
 	cmpq	%rcx, %rax
-	jne	.L8
+	jne	.L7
 	movl	%edx, %ecx
 	andl	$-4, %ecx
 	movl	%ecx, %eax
 	cmpl	%ecx, %edx
-	je	.L46
+	je	.L45
 	vzeroupper
-.L7:
+.L6:
 	movl	256(%rsp), %r10d
 	subl	%ecx, %r10d
 	leal	-1(%r10), %r8d
 	cmpl	$2, %r10d
-	je	.L10
+	je	.L9
 	incl	%ecx
 	vmovupd	(%rsi,%rcx,8), %xmm7
 	vsubpd	-8(%rsi,%rcx,8), %xmm7, %xmm0
@@ -166,25 +133,25 @@ _Z11spline_initPdS_i:
 	andl	$-2, %ecx
 	addl	%ecx, %eax
 	cmpl	%ecx, %r8d
-	je	.L9
-.L10:
+	je	.L8
+.L9:
 	cltq
 	incq	%rax
 	vmovsd	(%rsi,%rax,8), %xmm0
 	vsubsd	-8(%rsi,%rax,8), %xmm0, %xmm0
 	vmovsd	%xmm0, -8(%r12,%rax,8)
-.L9:
+.L8:
 	movq	%r13, %rcx
 	movl	%edx, 72(%rsp)
 	call	malloc
 	movl	72(%rsp), %edx
 	movq	%rax, %r15
 	cmpl	$1, %edx
-	jle	.L12
+	jle	.L11
 	movl	256(%rsp), %eax
 	leal	-3(%rax), %r9d
 	cmpl	$2, %r9d
-	jbe	.L28
+	jbe	.L27
 	movl	40(%rsp), %ecx
 	vmovupd	.LC1(%rip), %ymm2
 	shrl	$2, %ecx
@@ -192,7 +159,7 @@ _Z11spline_initPdS_i:
 	xorl	%eax, %eax
 	.p2align 4,,10
 	.p2align 3
-.L14:
+.L13:
 	vmovupd	8(%rbx,%rax), %ymm0
 	vmovupd	16(%rbx,%rax), %ymm3
 	vdivpd	(%r12,%rax), %ymm2, %ymm4
@@ -204,20 +171,20 @@ _Z11spline_initPdS_i:
 	vmovupd	%ymm0, 8(%r15,%rax)
 	addq	$32, %rax
 	cmpq	%rcx, %rax
-	jne	.L14
+	jne	.L13
 	movl	40(%rsp), %r11d
 	movl	%r11d, %ecx
 	andl	$-4, %ecx
 	leal	1(%rcx), %eax
 	cmpl	%ecx, %r11d
-	je	.L47
+	je	.L46
 	vzeroupper
-.L13:
+.L12:
 	movl	256(%rsp), %r8d
 	subl	%ecx, %r8d
 	leal	-2(%r8), %r10d
 	cmpl	$3, %r8d
-	je	.L16
+	je	.L15
 	leal	1(%rcx), %r8d
 	leaq	0(,%r8,8), %rcx
 	vmovupd	(%rbx,%r8,8), %xmm0
@@ -234,8 +201,8 @@ _Z11spline_initPdS_i:
 	andl	$-2, %ecx
 	addl	%ecx, %eax
 	cmpl	%r10d, %ecx
-	je	.L15
-.L16:
+	je	.L14
+.L15:
 	cltq
 	leaq	0(,%rax,8), %rcx
 	vmovsd	(%rbx,%rax,8), %xmm0
@@ -248,7 +215,7 @@ _Z11spline_initPdS_i:
 	vmulsd	%xmm5, %xmm0, %xmm0
 	vfmsub132sd	%xmm2, %xmm0, %xmm1
 	vmovsd	%xmm1, (%r15,%rcx)
-.L15:
+.L14:
 	movq	%rdi, %rcx
 	movl	%r9d, 92(%rsp)
 	movl	%edx, 88(%rsp)
@@ -271,7 +238,7 @@ _Z11spline_initPdS_i:
 	movl	92(%rsp), %r9d
 	vmovsd	%xmm4, (%r8)
 	movl	$1, %eax
-	jle	.L18
+	jle	.L17
 	vxorpd	%xmm7, %xmm7, %xmm7
 	vmovsd	(%r12), %xmm8
 	vmovsd	(%rsi), %xmm2
@@ -279,7 +246,7 @@ _Z11spline_initPdS_i:
 	vmovsd	.LC4(%rip), %xmm3
 	movl	$4, %ecx
 	vmovsd	%xmm7, %xmm7, %xmm6
-.L20:
+.L19:
 	vmulsd	%xmm8, %xmm7, %xmm7
 	vmovsd	-16(%rsi,%rcx,8), %xmm5
 	vmovsd	-24(%r12,%rcx,8), %xmm0
@@ -317,10 +284,10 @@ _Z11spline_initPdS_i:
 	addq	$3, %rcx
 	leal	-2(%rcx), %r11d
 	cmpl	%r11d, %r9d
-	jg	.L20
+	jg	.L19
 	.p2align 4,,10
 	.p2align 3
-.L18:
+.L17:
 	vmovsd	-8(%r12,%rax,8), %xmm1
 	vmovsd	8(%rsi,%rax,8), %xmm0
 	vmulsd	-8(%r10,%rax,8), %xmm1, %xmm2
@@ -336,19 +303,19 @@ _Z11spline_initPdS_i:
 	vmovsd	%xmm2, (%r10,%rax,8)
 	incq	%rax
 	cmpl	%eax, %edx
-	jg	.L18
-.L19:
+	jg	.L17
+.L18:
 	movslq	40(%rsp), %rax
 	movq	$0x000000000, -8(%r13,%rdi)
 	movq	$0x000000000, -8(%r14,%rdi)
 	vmovsd	%xmm4, -8(%r8,%rdi)
 	testl	%eax, %eax
-	js	.L22
+	js	.L21
 	leaq	(%rbx,%rdi), %rdx
 	addq	%r14, %rdi
 	cmpl	$3, 256(%rsp)
 	vmovsd	.LC3(%rip), %xmm5
-	jle	.L23
+	jle	.L22
 	movl	256(%rsp), %eax
 	movq	64(%rsp), %rcx
 	subl	$4, %eax
@@ -362,7 +329,7 @@ _Z11spline_initPdS_i:
 	vmovsd	.LC3(%rip), %xmm5
 	vmovupd	.LC6(%rip), %xmm7
 	subq	%rax, %rcx
-.L24:
+.L23:
 	vmovsd	16(%r10,%rdx,8), %xmm4
 	vmovupd	8(%r10,%rdx,8), %xmm9
 	vfnmadd213sd	16(%r13,%rdx,8), %xmm2, %xmm4
@@ -395,13 +362,13 @@ _Z11spline_initPdS_i:
 	vmovsd	%xmm4, 8(%rbp,%rdx,8)
 	subq	$2, %rdx
 	cmpq	%rcx, %rdx
-	jne	.L24
-.L23:
+	jne	.L23
+.L22:
 	vmovsd	.LC4(%rip), %xmm3
 	movq	48(%rsp), %rdx
 	.p2align 4,,10
 	.p2align 3
-.L25:
+.L24:
 	vmovsd	8(%r14,%rax,8), %xmm0
 	vmovsd	(%r10,%rax,8), %xmm6
 	vmovsd	(%r12,%rax,8), %xmm2
@@ -422,8 +389,8 @@ _Z11spline_initPdS_i:
 	vmovsd	%xmm0, 0(%rbp,%rax,8)
 	decq	%rax
 	testl	%eax, %eax
-	jns	.L25
-.L22:
+	jns	.L24
+.L21:
 	movq	%r12, %rcx
 	movq	%r8, 48(%rsp)
 	movq	%r10, 40(%rsp)
@@ -453,24 +420,24 @@ _Z11spline_initPdS_i:
 	ret
 	.p2align 4,,10
 	.p2align 3
-.L47:
-	vzeroupper
-	jmp	.L15
-	.p2align 4,,10
-	.p2align 3
 .L46:
 	vzeroupper
-	jmp	.L9
+	jmp	.L14
 	.p2align 4,,10
 	.p2align 3
-.L6:
+.L45:
+	vzeroupper
+	jmp	.L8
+	.p2align 4,,10
+	.p2align 3
+.L5:
 	movq	%r13, %rcx
 	call	malloc
 	movq	%rax, %r15
 	movl	256(%rsp), %eax
 	subl	$2, %eax
 	movl	%eax, 40(%rsp)
-.L12:
+.L11:
 	movq	%rdi, %rcx
 	call	malloc
 	movq	%r13, %rcx
@@ -486,15 +453,15 @@ _Z11spline_initPdS_i:
 	movq	$0x000000000, (%r10)
 	movq	%rax, %r13
 	vmovsd	%xmm4, (%r8)
-	jmp	.L19
-.L27:
+	jmp	.L18
+.L26:
 	xorl	%ecx, %ecx
 	xorl	%eax, %eax
-	jmp	.L7
-.L28:
+	jmp	.L6
+.L27:
 	xorl	%ecx, %ecx
 	movl	$1, %eax
-	jmp	.L13
+	jmp	.L12
 	.seh_endproc
 	.p2align 4
 	.globl	_Z11spline_evalP6Splined
@@ -509,19 +476,19 @@ _Z11spline_evalP6Splined:
 	movslq	%edx, %r9
 	leaq	0(,%r9,8), %rax
 	testl	%edx, %edx
-	jg	.L51
-	jmp	.L55
+	jg	.L50
+	jmp	.L54
 	.p2align 4,,10
 	.p2align 3
-.L52:
+.L51:
 	subq	$8, %rax
 	decl	%edx
-	je	.L56
-.L51:
+	je	.L55
+.L50:
 	vmovsd	(%r8,%rax), %xmm0
 	vcomisd	%xmm1, %xmm0
-	ja	.L52
-.L50:
+	ja	.L51
+.L49:
 	movq	8(%rcx), %r8
 	vsubsd	%xmm0, %xmm1, %xmm1
 	movq	(%rcx), %rdx
@@ -537,13 +504,13 @@ _Z11spline_evalP6Splined:
 	ret
 	.p2align 4,,10
 	.p2align 3
-.L56:
+.L55:
 	vmovsd	(%r8), %xmm0
 	xorl	%eax, %eax
-	jmp	.L50
-.L55:
+	jmp	.L49
+.L54:
 	vmovsd	(%r8,%r9,8), %xmm0
-	jmp	.L50
+	jmp	.L49
 	.seh_endproc
 	.p2align 4
 	.globl	_Z16spline_integrateP6Splineddi
@@ -582,7 +549,7 @@ _Z16spline_integrateP6Splineddi:
 	vmovsd	%xmm1, %xmm1, %xmm5
 	vdivsd	%xmm0, %xmm2, %xmm4
 	testl	%r9d, %r9d
-	jle	.L63
+	jle	.L62
 	movl	40(%rcx), %eax
 	movq	32(%rcx), %r14
 	leal	-2(%rax), %r10d
@@ -599,7 +566,7 @@ _Z16spline_integrateP6Splineddi:
 	vxorpd	%xmm8, %xmm8, %xmm8
 	.p2align 4,,10
 	.p2align 3
-.L62:
+.L61:
 	leal	-1(%r15), %eax
 	vcvtsi2sdl	%eax, %xmm6, %xmm0
 	vcvtsi2sdl	%r15d, %xmm6, %xmm1
@@ -608,19 +575,19 @@ _Z16spline_integrateP6Splineddi:
 	vfmadd132sd	%xmm4, %xmm5, %xmm0
 	vfmadd132sd	%xmm4, %xmm5, %xmm1
 	testl	%r10d, %r10d
-	jg	.L59
-	jmp	.L69
+	jg	.L58
+	jmp	.L68
 	.p2align 4,,10
 	.p2align 3
-.L61:
+.L60:
 	subq	$8, %rax
 	decl	%edx
-	je	.L70
-.L59:
+	je	.L69
+.L58:
 	vmovsd	(%r14,%rax), %xmm2
 	vcomisd	%xmm0, %xmm2
-	ja	.L61
-.L60:
+	ja	.L60
+.L59:
 	vsubsd	%xmm2, %xmm0, %xmm0
 	vmovsd	0(%rbp,%rax), %xmm3
 	incl	%r15d
@@ -635,8 +602,8 @@ _Z16spline_integrateP6Splineddi:
 	vmulsd	%xmm7, %xmm0, %xmm0
 	vfmadd231sd	%xmm4, %xmm0, %xmm8
 	cmpl	%r11d, %r15d
-	jne	.L62
-.L57:
+	jne	.L61
+.L56:
 	vmovsd	%xmm8, %xmm8, %xmm0
 	vmovups	32(%rsp), %xmm6
 	vmovups	48(%rsp), %xmm7
@@ -653,16 +620,16 @@ _Z16spline_integrateP6Splineddi:
 	ret
 	.p2align 4,,10
 	.p2align 3
-.L70:
+.L69:
 	vmovsd	(%r14), %xmm2
 	xorl	%eax, %eax
-	jmp	.L60
-.L69:
+	jmp	.L59
+.L68:
 	vmovsd	0(%r13), %xmm2
-	jmp	.L60
-.L63:
+	jmp	.L59
+.L62:
 	vxorpd	%xmm8, %xmm8, %xmm8
-	jmp	.L57
+	jmp	.L56
 	.seh_endproc
 	.p2align 4
 	.globl	_Z1fd
@@ -677,14 +644,6 @@ _Z1fd:
 	.section .rdata,"dr"
 .LC8:
 	.ascii "Russian\0"
-	.align 8
-.LC11:
-	.ascii "\327\350\361\353\345\355\355\356\345 \347\355\340\367\345\355\350\345 \350\355\362\345\343\360\340\353\340 \344\353\377 f(x) = sin(x) \355\340 \350\355\362\345\360\342\340\353\345 [0, pi]: %f\12\0"
-	.align 8
-.LC12:
-	.ascii "\316\346\350\344\340\345\354\356\345 \347\355\340\367\345\355\350\345 \350\355\362\345\343\360\340\353\340: %f\12\0"
-.LC14:
-	.ascii "\320\340\347\355\350\366\340: %f\12\0"
 	.section	.text.startup,"x"
 	.p2align 4
 	.globl	main
@@ -702,16 +661,14 @@ main:
 	.seh_pushreg	%r12
 	pushq	%rbx
 	.seh_pushreg	%rbx
-	subq	$64, %rsp
-	.seh_stackalloc	64
+	subq	$48, %rsp
+	.seh_stackalloc	48
 	leaq	32(%rsp), %rbp
 	.seh_setframe	%rbp, 32
 	vmovups	%xmm6, 0(%rbp)
 	.seh_savexmm	%xmm6, 32
-	vmovups	%xmm7, 16(%rbp)
-	.seh_savexmm	%xmm7, 48
 	.seh_endprologue
-	vxorps	%xmm7, %xmm7, %xmm7
+	vxorps	%xmm6, %xmm6, %xmm6
 	call	__main
 	leaq	.LC8(%rip), %rdx
 	xorl	%ecx, %ecx
@@ -725,7 +682,7 @@ main:
 	andq	$-8, %r13
 	movl	$8016, %eax
 	call	___chkstk_ms
-	vmovsd	.LC9(%rip), %xmm6
+	vmovsd	.LC9(%rip), %xmm3
 	vmovsd	.LC10(%rip), %xmm2
 	vxorpd	%xmm1, %xmm1, %xmm1
 	subq	%rax, %rsp
@@ -737,39 +694,33 @@ main:
 	xorl	%eax, %eax
 	.p2align 4,,10
 	.p2align 3
-.L73:
+.L72:
 	incq	%rax
-	vcvtsi2sdq	%rax, %xmm7, %xmm0
-	vmulsd	%xmm6, %xmm0, %xmm0
+	vcvtsi2sdq	%rax, %xmm6, %xmm0
+	vmulsd	%xmm3, %xmm0, %xmm0
 	vdivsd	%xmm2, %xmm0, %xmm0
 	vaddsd	%xmm1, %xmm0, %xmm0
 	vmovsd	%xmm0, 0(%r13,%rax,8)
 	cmpq	$1000, %rax
-	jne	.L73
+	jne	.L72
 	movq	$0x000000000, 0(,%rdx,8)
 	movl	$8, %ebx
 	.p2align 4,,10
 	.p2align 3
-.L74:
+.L73:
 	vmovsd	0(%r13,%rbx), %xmm0
 	call	sin
 	vmovsd	%xmm0, (%r12,%rbx)
 	addq	$8, %rbx
 	cmpq	$8000, %rbx
-	jne	.L74
+	jne	.L73
 	call	_ZNSt6chrono3_V212steady_clock3nowEv
 	movq	%r12, %rdx
-	movl	$1001, %r8d
 	movq	%r13, %rcx
+	movl	$1001, %r8d
 	movq	%rax, %rbx
 	call	_Z11spline_initPdS_i
-	vmovsd	%xmm6, %xmm6, %xmm2
-	movl	$1001, %r9d
-	vxorpd	%xmm1, %xmm1, %xmm1
-	movq	%rax, %rcx
 	movq	%rax, %r12
-	call	_Z16spline_integrateP6Splineddi
-	vmovsd	%xmm0, %xmm0, %xmm6
 	call	_ZNSt6chrono3_V212steady_clock3nowEv
 	subq	%rbx, %rax
 	movq	.refptr._ZSt4cout(%rip), %rcx
@@ -780,32 +731,16 @@ main:
 	movq	-24(%rax), %rax
 	movq	240(%r13,%rax), %r14
 	testq	%r14, %r14
-	je	.L80
+	je	.L79
 	cmpb	$0, 56(%r14)
-	je	.L76
+	je	.L75
 	movzbl	67(%r14), %eax
-.L77:
+.L76:
 	movsbl	%al, %edx
 	movq	%r13, %rcx
 	call	_ZNSo3putEc
 	movq	%rax, %rcx
 	call	_ZNSo5flushEv
-	vmovsd	%xmm6, %xmm6, %xmm1
-	vmovq	%xmm6, %rdx
-	leaq	.LC11(%rip), %rcx
-	call	_Z6printfPKcz
-	movabsq	$4611686018427387904, %rax
-	vmovq	%rax, %xmm1
-	movq	%rax, %rdx
-	leaq	.LC12(%rip), %rcx
-	call	_Z6printfPKcz
-	movq	.LC4(%rip), %rax
-	leaq	.LC14(%rip), %rcx
-	vmovq	%rax, %xmm1
-	vsubsd	%xmm1, %xmm6, %xmm1
-	vandpd	.LC13(%rip), %xmm1, %xmm1
-	vmovq	%xmm1, %rdx
-	call	_Z6printfPKcz
 	movq	(%r12), %rcx
 	call	free
 	movq	8(%r12), %rcx
@@ -820,24 +755,23 @@ main:
 	call	free
 	nop
 	vmovups	0(%rbp), %xmm6
-	vmovups	16(%rbp), %xmm7
 	xorl	%eax, %eax
-	leaq	32(%rbp), %rsp
+	leaq	16(%rbp), %rsp
 	popq	%rbx
 	popq	%r12
 	popq	%r13
 	popq	%r14
 	popq	%rbp
 	ret
-.L76:
+.L75:
 	movq	%r14, %rcx
 	call	_ZNKSt5ctypeIcE13_M_widen_initEv
 	movq	(%r14), %rax
 	movl	$10, %edx
 	movq	%r14, %rcx
 	call	*48(%rax)
-	jmp	.L77
-.L80:
+	jmp	.L76
+.L79:
 	call	_ZSt16__throw_bad_castv
 	nop
 	.seh_endproc
@@ -895,15 +829,8 @@ _GLOBAL__sub_I__Z11spline_initPdS_i:
 .LC10:
 	.long	0
 	.long	1083129856
-	.align 16
-.LC13:
-	.long	-1
-	.long	2147483647
-	.long	0
-	.long	0
 	.ident	"GCC: (Rev1, Built by MSYS2 project) 11.3.0"
 	.def	_ZNSt8ios_base4InitD1Ev;	.scl	2;	.type	32;	.endef
-	.def	__mingw_vfprintf;	.scl	2;	.type	32;	.endef
 	.def	malloc;	.scl	2;	.type	32;	.endef
 	.def	memcpy;	.scl	2;	.type	32;	.endef
 	.def	free;	.scl	2;	.type	32;	.endef

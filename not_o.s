@@ -1,42 +1,5 @@
 	.file	"main.cpp"
 	.text
-	.section	.text$_Z6printfPKcz,"x"
-	.linkonce discard
-	.globl	_Z6printfPKcz
-	.def	_Z6printfPKcz;	.scl	2;	.type	32;	.endef
-	.seh_proc	_Z6printfPKcz
-_Z6printfPKcz:
-.LFB8:
-	pushq	%rbp
-	.seh_pushreg	%rbp
-	pushq	%rbx
-	.seh_pushreg	%rbx
-	subq	$56, %rsp
-	.seh_stackalloc	56
-	leaq	48(%rsp), %rbp
-	.seh_setframe	%rbp, 48
-	.seh_endprologue
-	movq	%rcx, 32(%rbp)
-	movq	%rdx, 40(%rbp)
-	movq	%r8, 48(%rbp)
-	movq	%r9, 56(%rbp)
-	leaq	40(%rbp), %rax
-	movq	%rax, -16(%rbp)
-	movq	-16(%rbp), %rbx
-	movl	$1, %ecx
-	movq	__imp___acrt_iob_func(%rip), %rax
-	call	*%rax
-	movq	%rbx, %r8
-	movq	32(%rbp), %rdx
-	movq	%rax, %rcx
-	call	__mingw_vfprintf
-	movl	%eax, -4(%rbp)
-	movl	-4(%rbp), %eax
-	addq	$56, %rsp
-	popq	%rbx
-	popq	%rbp
-	ret
-	.seh_endproc
 	.section	.text$_ZNKSt6chrono8durationIxSt5ratioILx1ELx1000000000EEE5countEv,"x"
 	.linkonce discard
 	.align 2
@@ -143,8 +106,8 @@ _Z11spline_initPdS_i:
 	movl	32(%rbp), %edx
 	movl	%edx, 40(%rax)
 	movl	$0, -4(%rbp)
-	jmp	.L7
-.L8:
+	jmp	.L5
+.L6:
 	movl	-4(%rbp), %eax
 	cltq
 	leaq	0(,%rax,8), %rdx
@@ -172,10 +135,10 @@ _Z11spline_initPdS_i:
 	movsd	(%rdx), %xmm0
 	movsd	%xmm0, (%rax)
 	addl	$1, -4(%rbp)
-.L7:
+.L5:
 	movl	-4(%rbp), %eax
 	cmpl	32(%rbp), %eax
-	jl	.L8
+	jl	.L6
 	movl	32(%rbp), %eax
 	subl	$1, %eax
 	cltq
@@ -184,8 +147,8 @@ _Z11spline_initPdS_i:
 	call	malloc
 	movq	%rax, -40(%rbp)
 	movl	$0, -8(%rbp)
-	jmp	.L9
-.L10:
+	jmp	.L7
+.L8:
 	movl	-8(%rbp), %eax
 	cltq
 	addq	$1, %rax
@@ -207,11 +170,11 @@ _Z11spline_initPdS_i:
 	subsd	%xmm1, %xmm0
 	movsd	%xmm0, (%rax)
 	addl	$1, -8(%rbp)
-.L9:
+.L7:
 	movl	32(%rbp), %eax
 	subl	$1, %eax
 	cmpl	%eax, -8(%rbp)
-	jl	.L10
+	jl	.L8
 	movl	32(%rbp), %eax
 	subl	$1, %eax
 	cltq
@@ -220,8 +183,8 @@ _Z11spline_initPdS_i:
 	call	malloc
 	movq	%rax, -48(%rbp)
 	movl	$1, -12(%rbp)
-	jmp	.L11
-.L12:
+	jmp	.L9
+.L10:
 	movl	-12(%rbp), %eax
 	cltq
 	leaq	0(,%rax,8), %rdx
@@ -279,11 +242,11 @@ _Z11spline_initPdS_i:
 	subsd	%xmm1, %xmm0
 	movsd	%xmm0, (%rax)
 	addl	$1, -12(%rbp)
-.L11:
+.L9:
 	movl	32(%rbp), %eax
 	subl	$1, %eax
 	cmpl	%eax, -12(%rbp)
-	jl	.L12
+	jl	.L10
 	movl	32(%rbp), %eax
 	cltq
 	salq	$3, %rax
@@ -313,8 +276,8 @@ _Z11spline_initPdS_i:
 	pxor	%xmm0, %xmm0
 	movsd	%xmm0, (%rax)
 	movl	$1, -16(%rbp)
-	jmp	.L13
-.L14:
+	jmp	.L11
+.L12:
 	movl	-16(%rbp), %eax
 	cltq
 	addq	$1, %rax
@@ -408,11 +371,11 @@ _Z11spline_initPdS_i:
 	divsd	%xmm1, %xmm0
 	movsd	%xmm0, (%rax)
 	addl	$1, -16(%rbp)
-.L13:
+.L11:
 	movl	32(%rbp), %eax
 	subl	$1, %eax
 	cmpl	%eax, -16(%rbp)
-	jl	.L14
+	jl	.L12
 	movl	32(%rbp), %eax
 	cltq
 	salq	$3, %rax
@@ -441,8 +404,8 @@ _Z11spline_initPdS_i:
 	movl	32(%rbp), %eax
 	subl	$2, %eax
 	movl	%eax, -20(%rbp)
-	jmp	.L15
-.L16:
+	jmp	.L13
+.L14:
 	movl	-20(%rbp), %eax
 	cltq
 	leaq	0(,%rax,8), %rdx
@@ -563,9 +526,9 @@ _Z11spline_initPdS_i:
 	divsd	%xmm1, %xmm0
 	movsd	%xmm0, (%rax)
 	subl	$1, -20(%rbp)
-.L15:
+.L13:
 	cmpl	$0, -20(%rbp)
-	jns	.L16
+	jns	.L14
 	movq	-40(%rbp), %rax
 	movq	%rax, %rcx
 	call	free
@@ -606,12 +569,12 @@ _Z11spline_evalP6Splined:
 	movl	-8(%rbp), %eax
 	subl	$2, %eax
 	movl	%eax, -4(%rbp)
-	jmp	.L19
-.L21:
-	subl	$1, -4(%rbp)
+	jmp	.L17
 .L19:
+	subl	$1, -4(%rbp)
+.L17:
 	cmpl	$0, -4(%rbp)
-	jle	.L20
+	jle	.L18
 	movq	16(%rbp), %rax
 	movq	32(%rax), %rdx
 	movl	-4(%rbp), %eax
@@ -620,8 +583,8 @@ _Z11spline_evalP6Splined:
 	addq	%rdx, %rax
 	movsd	(%rax), %xmm0
 	comisd	24(%rbp), %xmm0
-	ja	.L21
-.L20:
+	ja	.L19
+.L18:
 	movq	16(%rbp), %rax
 	movq	32(%rax), %rdx
 	movl	-4(%rbp), %eax
@@ -700,8 +663,8 @@ _Z16spline_integrateP6Splineddi:
 	pxor	%xmm0, %xmm0
 	movsd	%xmm0, -8(%rbp)
 	movl	$1, -12(%rbp)
-	jmp	.L24
-.L25:
+	jmp	.L22
+.L23:
 	movl	-12(%rbp), %eax
 	subl	$1, %eax
 	pxor	%xmm0, %xmm0
@@ -738,10 +701,10 @@ _Z16spline_integrateP6Splineddi:
 	addsd	%xmm1, %xmm0
 	movsd	%xmm0, -8(%rbp)
 	addl	$1, -12(%rbp)
-.L24:
+.L22:
 	movl	-12(%rbp), %eax
 	cmpl	40(%rbp), %eax
-	jle	.L25
+	jle	.L23
 	movsd	-8(%rbp), %xmm0
 	movq	%xmm0, %rax
 	movq	%rax, %xmm0
@@ -774,14 +737,6 @@ _Z1fd:
 	.section .rdata,"dr"
 .LC4:
 	.ascii "Russian\0"
-	.align 8
-.LC7:
-	.ascii "\327\350\361\353\345\355\355\356\345 \347\355\340\367\345\355\350\345 \350\355\362\345\343\360\340\353\340 \344\353\377 f(x) = sin(x) \355\340 \350\355\362\345\360\342\340\353\345 [0, pi]: %f\12\0"
-	.align 8
-.LC8:
-	.ascii "\316\346\350\344\340\345\354\356\345 \347\355\340\367\345\355\350\345 \350\355\362\345\343\360\340\353\340: %f\12\0"
-.LC10:
-	.ascii "\320\340\347\355\350\366\340: %f\12\0"
 	.text
 	.globl	main
 	.def	main;	.scl	2;	.type	32;	.endef
@@ -812,8 +767,8 @@ main:
 	call	__main
 	movq	%rsp, %rax
 	movq	%rax, %rbx
+	movq	$0, -112(%rbp)
 	movq	$0, -120(%rbp)
-	movq	$0, -128(%rbp)
 	leaq	.LC4(%rip), %rax
 	movq	%rax, %rdx
 	movl	$0, %ecx
@@ -823,6 +778,7 @@ main:
 	movsd	.LC5(%rip), %xmm0
 	movsd	%xmm0, -32(%rbp)
 	movl	$1000, -36(%rbp)
+	movl	$1000, -40(%rbp)
 	movl	-36(%rbp), %eax
 	addl	$1, %eax
 	movslq	%eax, %rdx
@@ -873,16 +829,16 @@ main:
 	movsd	-24(%rbp), %xmm0
 	movsd	%xmm0, (%rax)
 	movq	$0, -8(%rbp)
-	jmp	.L30
-.L33:
+	jmp	.L28
+.L31:
 	movq	-8(%rbp), %rax
 	addq	$1, %rax
 	testq	%rax, %rax
-	js	.L31
+	js	.L29
 	pxor	%xmm0, %xmm0
 	cvtsi2sdq	%rax, %xmm0
-	jmp	.L32
-.L31:
+	jmp	.L30
+.L29:
 	movq	%rax, %rdx
 	shrq	%rdx
 	andl	$1, %eax
@@ -890,7 +846,7 @@ main:
 	pxor	%xmm0, %xmm0
 	cvtsi2sdq	%rdx, %xmm0
 	addsd	%xmm0, %xmm0
-.L32:
+.L30:
 	movsd	-32(%rbp), %xmm1
 	subsd	-24(%rbp), %xmm1
 	mulsd	%xmm1, %xmm0
@@ -903,14 +859,14 @@ main:
 	movq	-56(%rbp), %rax
 	movsd	%xmm0, (%rax,%rdx,8)
 	addq	$1, -8(%rbp)
-.L30:
+.L28:
 	movl	-36(%rbp), %eax
 	cltq
 	cmpq	%rax, -8(%rbp)
-	jb	.L33
+	jb	.L31
 	movl	$0, -12(%rbp)
-	jmp	.L34
-.L35:
+	jmp	.L32
+.L33:
 	movq	-56(%rbp), %rax
 	movl	-12(%rbp), %edx
 	movslq	%edx, %rdx
@@ -923,12 +879,12 @@ main:
 	movslq	%ecx, %rcx
 	movq	%rax, (%rdx,%rcx,8)
 	addl	$1, -12(%rbp)
-.L34:
+.L32:
 	movl	-12(%rbp), %eax
 	cmpl	-36(%rbp), %eax
-	jl	.L35
+	jl	.L33
 	call	_ZNSt6chrono3_V212steady_clock3nowEv
-	movq	%rax, -120(%rbp)
+	movq	%rax, -112(%rbp)
 	movl	-36(%rbp), %eax
 	leal	1(%rax), %ecx
 	movq	-72(%rbp), %rdx
@@ -937,6 +893,9 @@ main:
 	movq	%rax, %rcx
 	call	_Z11spline_initPdS_i
 	movq	%rax, -80(%rbp)
+	movl	$0, -16(%rbp)
+	jmp	.L34
+.L35:
 	movl	-36(%rbp), %eax
 	leal	1(%rax), %edx
 	movsd	-32(%rbp), %xmm1
@@ -949,18 +908,23 @@ main:
 	call	_Z16spline_integrateP6Splineddi
 	movq	%xmm0, %rax
 	movq	%rax, -88(%rbp)
+	addl	$1, -16(%rbp)
+.L34:
+	movl	-16(%rbp), %eax
+	cmpl	-40(%rbp), %eax
+	jl	.L35
 	call	_ZNSt6chrono3_V212steady_clock3nowEv
-	movq	%rax, -128(%rbp)
-	leaq	-120(%rbp), %rdx
-	leaq	-128(%rbp), %rax
+	movq	%rax, -120(%rbp)
+	leaq	-112(%rbp), %rdx
+	leaq	-120(%rbp), %rax
 	movq	%rax, %rcx
 	call	_ZNSt6chronomiINS_3_V212steady_clockENS_8durationIxSt5ratioILx1ELx1000000000EEEES6_EENSt11common_typeIJT0_T1_EE4typeERKNS_10time_pointIT_S8_EERKNSC_ISD_S9_EE
-	movq	%rax, -104(%rbp)
-	leaq	-104(%rbp), %rax
+	movq	%rax, -96(%rbp)
+	leaq	-96(%rbp), %rax
 	movq	%rax, %rcx
 	call	_ZNSt6chrono13duration_castINS_8durationIxSt5ratioILx1ELx1000000000EEEExS3_EENSt9enable_ifIXsrNS_13__is_durationIT_EE5valueES7_E4typeERKNS1_IT0_T1_EE
-	movq	%rax, -112(%rbp)
-	leaq	-112(%rbp), %rax
+	movq	%rax, -104(%rbp)
+	leaq	-104(%rbp), %rax
 	movq	%rax, %rcx
 	call	_ZNKSt6chrono8durationIxSt5ratioILx1ELx1000000000EEE5countEv
 	movq	%rax, %rdx
@@ -971,34 +935,6 @@ main:
 	movq	.refptr._ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_(%rip), %rax
 	movq	%rax, %rdx
 	call	_ZNSolsEPFRSoS_E
-	movsd	.LC6(%rip), %xmm0
-	movsd	%xmm0, -96(%rbp)
-	movsd	-88(%rbp), %xmm0
-	movq	-88(%rbp), %rax
-	movapd	%xmm0, %xmm1
-	movq	%rax, %rdx
-	leaq	.LC7(%rip), %rax
-	movq	%rax, %rcx
-	call	_Z6printfPKcz
-	movsd	-96(%rbp), %xmm0
-	movq	-96(%rbp), %rax
-	movapd	%xmm0, %xmm1
-	movq	%rax, %rdx
-	leaq	.LC8(%rip), %rax
-	movq	%rax, %rcx
-	call	_Z6printfPKcz
-	movsd	-88(%rbp), %xmm0
-	subsd	-96(%rbp), %xmm0
-	movq	.LC9(%rip), %xmm1
-	andpd	%xmm1, %xmm0
-	movq	%xmm0, %rax
-	movq	%rax, %rdx
-	movq	%rdx, %xmm0
-	movapd	%xmm0, %xmm1
-	movq	%rax, %rdx
-	leaq	.LC10(%rip), %rax
-	movq	%rax, %rcx
-	call	_Z6printfPKcz
 	movq	-80(%rbp), %rax
 	movq	(%rax), %rax
 	movq	%rax, %rcx
@@ -1266,18 +1202,7 @@ _GLOBAL__sub_I__Z11spline_initPdS_i:
 .LC5:
 	.long	1413754136
 	.long	1074340347
-	.align 8
-.LC6:
-	.long	0
-	.long	1073741824
-	.align 16
-.LC9:
-	.long	-1
-	.long	2147483647
-	.long	0
-	.long	0
 	.ident	"GCC: (Rev1, Built by MSYS2 project) 11.3.0"
-	.def	__mingw_vfprintf;	.scl	2;	.type	32;	.endef
 	.def	malloc;	.scl	2;	.type	32;	.endef
 	.def	free;	.scl	2;	.type	32;	.endef
 	.def	sin;	.scl	2;	.type	32;	.endef
