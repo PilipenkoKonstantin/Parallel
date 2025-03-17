@@ -155,10 +155,10 @@ int main(int argc, char** argv) {
     // ������������� �������� ��� ������� f(x)
     Spline* spline = spline_init(x, y, n+1);
 
-    int n, ibeg, iend;
-    n = (tries - 1) / size + 1;
-    ibeg = rank * n;
-    iend = (rank + 1) * n;
+    int k, ibeg, iend;
+    k = (tries - 1) / size + 1;
+    ibeg = rank * k;
+    iend = (rank + 1) * k;
     // ��������� �������������� � �������������� ��������
     for (size_t i = ibeg; i < ((iend > tries) ? tries : iend); ++i)
         double calculated_integral = spline_integrate(spline, a, b, n + 1);
