@@ -127,10 +127,6 @@ double f(double x) {
 }
 
 int main(int argc, char** argv) {
-    MPI_Init(&argc, &argv);
-    int rank, size, tries=1000;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
     std::chrono::steady_clock::time_point start, end;
     setlocale(LC_ALL, "Russian");
 
@@ -155,6 +151,11 @@ int main(int argc, char** argv) {
     // ������������� �������� ��� ������� f(x)
     Spline* spline = spline_init(x, y, n+1);
 
+    MPI_Init(&argc, &argv);
+    int rank, size, tries=1000;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
     int k, ibeg, iend;
     k = (tries - 1) / size + 1;
     ibeg = rank * k;
@@ -162,8 +163,12 @@ int main(int argc, char** argv) {
     // ��������� �������������� � �������������� ��������
     for (size_t i = ibeg; i < ((iend > tries) ? tries : iend); ++i)
         double calculated_integral = spline_integrate(spline, a, b, n + 1);
-    end = std::chrono::steady_clock::now();
-    std::cout << std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() << std::endl;
+    MPI_Finalize();
+    if(rank==0)
+    {
+        end = std::chrono::steady_clock::now();
+        std::cout << std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() << std::endl;
+    }
 
     // ��������� ��������� (������������� �������� �� sin(x) �� [0, pi])
     double expected_integral = 2.0;
